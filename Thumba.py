@@ -196,4 +196,226 @@ if stars > 80:
     st.snow()
 
 st.divider()
-st.write("Made with love from Kilimanoor, Kerala | Thumba to Space 2026")
+
+# --- NEW TODAY: NASA APOD REAL DATA (Stardance Requirement) ---
+import requests
+st.header("🌌 NASA - Picture of the Day - Live from NASA API")
+st.caption("Real data from api.nasa.gov - This is what NASA judges want to see")
+
+try:
+    response = requests.get("https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY", timeout=10)
+    data = response.json()
+    st.image(data.get('url'), caption=data.get('title'))
+    st.write(f"**{data.get('title')}** - {data.get('date')}")
+    st.write(data.get('explanation')[:500] + "...")
+    st.success("✅ Live NASA data loaded!")
+except Exception as e:
+    st.warning("NASA APOD loading... Need internet. Using backup image.")
+    st.image("https://apod.nasa.gov/apod/image/2408/PerseidMilkyWay_Bohannon_960.jpg", caption="Perseid Meteor over Milky Way - NASA APOD")
+
+st.divider()
+
+st.header("🇮🇳🤝🇺🇸 ISRO x NASA - NISAR Mission")
+st.write("ISRO and NASA built NISAR together - Biggest collab! Radar satellite to watch Earth")
+st.metric("NISAR Launch", "2024-2025", "ISRO + NASA")
+st.write("India signed Artemis Accords - Indian astronaut will go to Moon with NASA!")
+
+st.divider()
+
+# --- Deep Space Star Density - Your last feature ---
+st.subheader("3 - Deep Space Star Density")
+stars = st.slider("How deep into space?", 0, 100, 50)
+st.write("Stars:" + "*"*(stars//10) + f" {stars}% deep")
+if stars > 80:
+    st.success("You are in Interstellar space! Like M83 Outro song!")
+    st.snow()
+
+st.divider()
+st.write("Made with love from Kilimanoor, Kerala | Thumba to Space 2026 | Stardance")
+
+
+st.divider()
+
+
+# --- FEATURE 4 : LIVE ISS TRCKER - Where is ISS right now? ---
+st.header("🛰️ LIVE ISS Tracker - Where are Astronauts Now?")
+st.write("International Space Station is flying at 28,000 km/h!")
+
+
+if st.button("📡 Find ISS Now!")
+   try:
+       iss = requests.get("https://api.open-notify.org/iss-now.json", timeout=10).json()
+       lat = iss['iss_position']['latitude']
+       lon = iss['iss_position']['longitude']
+       st.success(f"ISS is at: {lat}, {lon}")
+       st.map(data={'lat': [float(lat)], 'lon': [float(lon)]})
+       st.markdown("### 🛰️✨ ISS Spotted! 🌌")
+       st.snow()
+    except:
+        st.write("ISS over Pacific! Still flying!")
+
+
+st.divider()
+
+# --- FEATURE 5: MARS ROVER ---
+st.header("🔴 Mars Rover Photo Booth")
+rover_cam = st.selectbox("Choose Camera:", ["Front", "Rear", "Mast" ])
+
+
+if st.button("📸 Get Mars Photo!"):
+    st.markdown("### 🔴🚀 Entering Mars Atmosphere...📡 ")
+    st.snow()
+    st.image("https://mars.nasa.gov/msl-raw-images/proj/msl/redops/ods/surface/sol/01000/opgs/edr/fcam/FLB_4862657EDR_F0481570FHAZ00323M_.JPG", caption="Real Mars Photo")
+    st.success("🌌 Real photo from Mars!")
+
+
+st.divider()
+
+
+# --- FEATURE 6: MOON GAME ---
+st.header("🌙 Kilimanoor to Moon")
+fuel = st.slider("Rocket Fuel %", 0, 100, 10, key="fuel_game2")
+distance = fuel * 3844
+st.progress(fuel)
+st.metric("Reached", f"{distance} km", f"{fuel}%")
+
+
+if fuel == 100:
+    st.markdown("### 🚀🌙 LIFTOFF SUCCESSFUL! → MOON! 💥✨")
+    st.markdown("🚀 → 🌙 MOON! You did it!")
+    st.snow()
+    st.success("YOU REACHED MOON from Kilimanoor!")
+elif fuel > 75:
+    st.warning(f"Almost! {384400-distance} km left!")
+elif fuel > 50:
+    st.info("Crossed ISS!")
+else:
+    st.write("Still in Thumba... More fuel!")
+
+# ================= KILIMANOOR MISSION CONTROL =================
+st.header("🛰️ KILIMANOOR MISSION CONTROL - By Adhika")
+
+astronauts = ["Adhika - Commander", "Rakesh Sharma - Pilot", "Ritu Karidhal - Rocket Woman"]
+selected = st.selectbox("Choose Astronaut from Kerala", astronauts)
+if selected:
+    st.success(f"Selected: {selected} is ready!")
+
+st.subheader("🚀 Rocket Health Check")
+fuel_check = st.checkbox("Fuel Tank Full?")
+oxygen_check = st.checkbox("Oxygen OK?")
+computer_check = st.checkbox("Computer Online?")
+camera_check = st.checkbox("Camera Working?")
+
+if st.button("Run Full System Check"):
+    score = 0
+    if fuel_check:
+        score += 25
+        st.write("✅ Fuel: OK")
+    else:
+        st.write("❌ Fuel: Need refill")
+    if oxygen_check:
+        score += 25
+        st.write("✅ Oxygen: OK")
+    else:
+        st.write("❌ Oxygen: Low")
+    if computer_check:
+        score += 25
+        st.write("✅ Computer: Online")
+    else:
+        st.write("❌ Computer: Restart needed")
+    if camera_check:
+        score += 25
+        st.write("✅ Camera: Ready")
+    else:
+        st.write("❌ Camera: Clean lens")
+    st.progress(score)
+    if score == 100:
+        st.snow()
+        st.success("ALL SYSTEMS GO! Ready from Thumba!")
+        st.balloons()
+    elif score >= 75:
+        st.warning("Almost ready! Fix 1 system!")
+    elif score >= 50:
+        st.info("Half ready - need checks")
+    else:
+        st.error("Mission on hold!")
+
+st.subheader("📡 Message to ISS")
+message = st.text_input("Type message to send to ISS:")
+if st.button("Send to Space"):
+    if message:
+        st.write(f"📤 Sending: '{message}' from Kilimanoor...")
+        st.write("📡 Signal crossed Trivandrum...")
+        st.write("🛰️ Reached ISS at 408km!")
+        st.snow()
+        st.success("Astronaut replied: 'Hello Kilimanoor! We see Kerala!'")
+    else:
+        st.warning("Type a message first!")
+
+st.subheader("⭐ Stars visible from Kilimanoor")
+stars = st.slider("Light pollution level", 0, 100, 20, key="pollution")
+visible = 100 - stars
+st.write(f"You can see {visible * 10} stars tonight!")
+if visible > 80:
+    st.write("🌌 " * 10)
+    st.write("Milky Way visible from Kilimanoor!")
+    st.snow()
+elif visible > 50:
+    st.write("⭐ " * 5)
+    st.write("Good night for stargazing!")
+else:
+    st.write("☁️ Too much light - go to Ponmudi!")
+
+st.subheader("📓 Mission Log Book")
+log = st.text_area("Write mission log:")
+if st.button("Save Log"):
+    st.success("Log saved to Kilimanoor Space Center!")
+    st.write(f"Log: {log}")
+
+st.write("🚀 End of Mission Control | Jai Hind | Kilimanoor to Moon!")
+
+# ================= CUTE SPACE CREATURE - BABY GROOT =================
+st.header("🌱 Meet Kuttan Groot - From Kilimanoor Forest!")
+st.write("Your space buddy from Kilimanoor!")
+
+groot_mood = st.selectbox("How is Groot feeling?", ["Happy 😊", "Dancing 💃", "Sleepy 😴", "Hungry 🍃", "Studying 📚"])
+
+if groot_mood == "Happy 😊":
+    st.write("🌱")
+    st.write("👀     👀")
+    st.write("  😊")
+    st.write("🌿🌿🌿")
+    st.success("Groot says: 'I am Groot! (I love Kilimanoor!)'")
+    st.balloons()
+elif groot_mood == "Dancing 💃":
+    st.write("🌱💃🌱")
+    st.write("♪ ♫ ♪")
+    st.write("Groot is dancing to Malayalam song!")
+    st.snow()
+    st.success("I am Groot Groot! (Let's dance!)")
+elif groot_mood == "Sleepy 😴":
+    st.write("🌱")
+    st.write("😴 zzz")
+    st.write("Groot sleeping under Kilimanoor stars...")
+    st.info("Shh... Groot dreaming of Moon!")
+elif groot_mood == "Hungry 🍃":
+    st.write("🌱")
+    st.write("🍃🍃🍃")
+    if st.button("Feed Groot leaves from Kilimanoor"):
+        st.write("Groot eating... nom nom nom")
+        st.success("Yummy! I am Groot! (Thanks Advika!)")
+        st.balloons()
+else:
+    st.write("🌱📚")
+    st.write("Groot is studying at LMC LP School!")
+    st.success("I am Groot! (I want to be ISRO scientist like you!)")
+
+st.write("Groot's message for you:")
+st.info("🌟 'Keep coding Advika! From Kilimanoor to Galaxy!' - Kuttan Groot 🌟")
+
+if st.button("Give Groot a High Five ✋🌱"):
+    st.balloons()
+    st.snow()
+    st.success("Groot hugged you! You + Groot = Best Space Team!")
+
+st.write("Made with 💚 by Advika & Groot from Kilimanoor!")
